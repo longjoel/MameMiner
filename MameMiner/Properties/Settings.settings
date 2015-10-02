@@ -5,5 +5,8 @@
     <Setting Name="MamePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\Mame\Mame64.exe</Value>
     </Setting>
+    <Setting Name="RomArchivePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\MameRomArchive</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

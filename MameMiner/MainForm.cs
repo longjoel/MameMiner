@@ -18,7 +18,9 @@ namespace MameMiner
     {
         GameList _gameList;
 
-
+        /// <summary>
+        /// This initializes the master game list in the background on start up and caches it.
+        /// </summary>
         private void LoadMasterGameList()
         {
             this.Enabled = false;
@@ -42,13 +44,6 @@ namespace MameMiner
 
         }
 
-        private void SearchForGame()
-        {
-            //this.ApplicationLogTextBox.Text = string.Join(Environment.NewLine, _gameList.SearchGame(this.GameSearchTextBox.Text));
-
-
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadMasterGameList();
@@ -56,19 +51,12 @@ namespace MameMiner
 
         private void GameSearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            //this.Enabled = false;
-
-            //Task.Factory.StartNew(() => {
+            
             var results = _gameList.SearchGame(this.GameSearchTextBox.Text);
-
-
-            // Invoke( new Action( ()=> {
+           
             SearchResultsListBox.ValueMember = "GameDescription";
             SearchResultsListBox.DataSource = results.Take(Math.Min(50, results.Count)).ToList();
-            // this.Enabled = true;
-
-            //    }));
-            //});
+          
 
         }
 

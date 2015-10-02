@@ -34,5 +34,17 @@ namespace MameMiner.Properties {
                 this["MamePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\MameRomArchive")]
+        public string RomArchivePath {
+            get {
+                return ((string)(this["RomArchivePath"]));
+            }
+            set {
+                this["RomArchivePath"] = value;
+            }
+        }
     }
 }
