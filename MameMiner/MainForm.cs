@@ -17,6 +17,7 @@ namespace MameMiner
     public partial class MainForm : Form
     {
         GameList _gameList;
+        RomDataEngine _romDataEngine;
 
         /// <summary>
         /// This initializes the master game list in the background on start up and caches it.
@@ -44,23 +45,63 @@ namespace MameMiner
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadMasterGameList();
+
+            if (!File.Exists("roms.db"))
+            {
+                _romDataEngine = new RomDataEngine("Roms.db");
+
+                var nx = new ImportRomsForm(_romDataEngine);
+                nx.ShowDialog();
+            }
+            else
+            {
+                _romDataEngine = new RomDataEngine("Roms.db");
+            }
+
         }
 
+        private void ResetDatabase()
+        {
+            if (File.Exists("Roms.db")) {
+                File.Delete("Roms.db");
+            }
+
+            _romDataEngine = new RomDataEngine("Roms.db");
+
+            var nx = new ImportRomsForm(_romDataEngine);
+            nx.ShowDialog();
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameSearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            
+
             var results = _gameList.SearchGame(this.GameSearchTextBox.Text);
-           
+
             SearchResultsListBox.ValueMember = "GameDescription";
             SearchResultsListBox.DataSource = results.Take(Math.Min(50, results.Count)).ToList();
-          
+
 
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchResultsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SearchResultsListBox.SelectedIndex != -1)
@@ -69,6 +110,16 @@ namespace MameMiner
 
                 this.ApplicationLogTextBox.Text = g.FullText;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void regenerateDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetDatabase();
         }
     }
 }

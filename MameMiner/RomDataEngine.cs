@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SQLite;
 
+using System.Security.Cryptography;
+
+using System.IO;
+
 namespace MameMiner
 {
     public class RomDataEngine
     {
+        public string _connectionString;
+
         /// <summary>
         /// An SQL Command to create the table if none exist.
         /// </summary>
@@ -35,20 +41,91 @@ namespace MameMiner
             @CRC32)";
 
         /// <summary>
-        /// Search for the record using the name of the rom and SHA1 of the file.
+        /// Search for the record using the name of the rom and crc32 of the file.
         /// </summary>
-        const string CMDSearchByRomNameAndCRC32 = @"SELECT 
+        const string CMDSearchByRomNameAndcrc32 = @"SELECT 
             ContainerPath, 
             RomName, 
             FileSize, 
             CRC32,
-            FROM RomFileDetails WHERE RomName = @RomName AND SHA1 = @SHA1";
+            FROM RomFileDetails WHERE RomName = @RomName AND CRC32 = @CRC32";
 
-        
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dbPath"></param>
         public RomDataEngine(string dbPath)
         {
+            _connectionString = string.Format("Data Source={0};Version=3;", dbPath);
 
+            if (!File.Exists(dbPath))
+            {
+                using (var con = new SQLiteConnection(_connectionString))
+                {
+                    con.Open();
+
+                    using (var cmd = new SQLiteCommand(CMDCreateTable, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    con.Close();
+                }
+
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="romName"></param>
+        /// <param name="crc32"></param>
+        /// <returns></returns>
+        public List<RomDataEngineRecord> Query(string romName, string crc32)
+        {
+            var results = new List<RomDataEngineRecord>();
+            var dt = new DataTable();
+            using (var con = new SQLiteConnection(_connectionString))
+            {
+                con.Open();
+
+                using (var cmd = new SQLiteCommand(CMDSearchByRomNameAndcrc32, con))
+                {
+                    cmd.Parameters.AddWithValue("@RomName", romName);
+                    cmd.Parameters.AddWithValue("@CRC32", crc32);
+
+                    new SQLiteDataAdapter(cmd).Fill(dt);
+                }
+                con.Close();
+            }
+
+            foreach (DataRow r in dt.Rows)
+            {
+                results.Add(new RomDataEngineRecord(r[0].ToString(),
+                    r[1].ToString(),
+                    r[2].ToString(),
+                    r[3].ToString()));
+            }
+
+            return results;
+        }
+
+        public void Insert(string containerPath, string romName, string fileSize, string crc32)
+        {
+            using (var con = new SQLiteConnection(_connectionString))
+            {
+                con.Open();
+
+                using (var cmd = new SQLiteCommand(CMDInsertRecord, con))
+                {
+                    cmd.Parameters.AddWithValue("@ContainerPath", containerPath);
+                    cmd.Parameters.AddWithValue("@RomName", romName);
+                    cmd.Parameters.AddWithValue("@FileSize", fileSize); 
+                    cmd.Parameters.AddWithValue("@CRC32", crc32);
+                }
+                con.Close();
+            }
+        }
+
     }
 }

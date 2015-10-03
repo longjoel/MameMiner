@@ -37,7 +37,7 @@ namespace MameMiner
 
         public string[] FileNames { get; private set; }
         public string[] CRCs { get; private set; }
-        public string[] SHA1s { get; private set; }
+        public string[] crc32s { get; private set; }
 
         public bool IsGood { get; private set; }
 

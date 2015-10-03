@@ -11,14 +11,14 @@ namespace MameMiner
         public string ContainerPath { get; private set; }
         public string RomName { get; private set; }
         public string FileSize { get; private set; }
-        public string CRC32 { get; private set; }
+        public string crc32 { get; private set; }
 
         public RomDataEngineRecord(string containerPath, string romName, string fileSize, string crc32)
         {
             ContainerPath = containerPath;
             RomName = romName;
             FileSize = fileSize;
-            CRC32 = crc32;
+            crc32 = crc32;
 
         }
 
