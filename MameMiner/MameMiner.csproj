@@ -97,6 +97,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RomDataEngine.cs" />
     <Compile Include="RomDataEngineRecord.cs" />
+    <EmbeddedResource Include="GameDataView.resx">
+      <DependentUpon>GameDataView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImportRomsForm.resx">
       <DependentUpon>ImportRomsForm.cs</DependentUpon>
     </EmbeddedResource>

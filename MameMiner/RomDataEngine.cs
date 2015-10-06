@@ -13,9 +13,10 @@ using System.IO;
 
 namespace MameMiner
 {
-    public class RomDataEngine
+    public class RomDataEngine : IDisposable
     {
         public string _connectionString;
+        public SQLiteConnection _connection;
 
         /// <summary>
         /// An SQL Command to create the table if none exist.
@@ -47,7 +48,7 @@ namespace MameMiner
             ContainerPath, 
             RomName, 
             FileSize, 
-            CRC32,
+            CRC32
             FROM RomFileDetails WHERE RomName = @RomName AND CRC32 = @CRC32";
 
 
@@ -61,19 +62,29 @@ namespace MameMiner
 
             if (!File.Exists(dbPath))
             {
-                using (var con = new SQLiteConnection(_connectionString))
-                {
-                    con.Open();
+                _connection = new SQLiteConnection(_connectionString);
+                _connection.Open();
 
-                    using (var cmd = new SQLiteCommand(CMDCreateTable, con))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    con.Close();
+                using (var cmd = new SQLiteCommand(CMDCreateTable, _connection))
+                {
+                    cmd.ExecuteNonQuery();
                 }
 
             }
+            else
+            {
+                _connection = new SQLiteConnection(_connectionString);
+                _connection.Open();
+            }
+
+
         }
+
+        public void Dispose()
+        {
+            _connection.Close();
+        }
+
 
         /// <summary>
         /// 
@@ -85,19 +96,15 @@ namespace MameMiner
         {
             var results = new List<RomDataEngineRecord>();
             var dt = new DataTable();
-            using (var con = new SQLiteConnection(_connectionString))
+
+            using (var cmd = new SQLiteCommand(CMDSearchByRomNameAndcrc32, _connection))
             {
-                con.Open();
+                cmd.Parameters.AddWithValue("@RomName", romName);
+                cmd.Parameters.AddWithValue("@CRC32", crc32);
 
-                using (var cmd = new SQLiteCommand(CMDSearchByRomNameAndcrc32, con))
-                {
-                    cmd.Parameters.AddWithValue("@RomName", romName);
-                    cmd.Parameters.AddWithValue("@CRC32", crc32);
-
-                    new SQLiteDataAdapter(cmd).Fill(dt);
-                }
-                con.Close();
+                new SQLiteDataAdapter(cmd).Fill(dt);
             }
+            
 
             foreach (DataRow r in dt.Rows)
             {
@@ -112,20 +119,18 @@ namespace MameMiner
 
         public void Insert(string containerPath, string romName, string fileSize, string crc32)
         {
-            using (var con = new SQLiteConnection(_connectionString))
+
+            using (var cmd = new SQLiteCommand(CMDInsertRecord, _connection))
             {
-                con.Open();
+                cmd.Parameters.AddWithValue("@ContainerPath", containerPath);
+                cmd.Parameters.AddWithValue("@RomName", romName);
+                cmd.Parameters.AddWithValue("@FileSize", fileSize);
+                cmd.Parameters.AddWithValue("@CRC32", crc32);
 
-                using (var cmd = new SQLiteCommand(CMDInsertRecord, con))
-                {
-                    cmd.Parameters.AddWithValue("@ContainerPath", containerPath);
-                    cmd.Parameters.AddWithValue("@RomName", romName);
-                    cmd.Parameters.AddWithValue("@FileSize", fileSize); 
-                    cmd.Parameters.AddWithValue("@CRC32", crc32);
-                }
-                con.Close();
+                cmd.ExecuteNonQuery();
             }
-        }
 
+        }
     }
+
 }

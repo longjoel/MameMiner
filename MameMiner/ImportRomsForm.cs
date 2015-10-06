@@ -41,16 +41,6 @@ namespace MameMiner
             {
                 for (int iFile = 0; iFile < files.Count(); iFile++)
                 {
-                    
-                    var f = new ICSharpCode.SharpZipLib.Zip.ZipFile(files[iFile]);
-                    foreach(ZipEntry fx in f)
-                    {
-
-                        _dataEngine.Insert(files[iFile], fx.Name, fx.Size.ToString(), fx.Crc.ToString());
-                    }
-
-
-
                     Invoke(new Action(() =>
                     {
                         this.LoadingRomsProgressBar.Value = iFile;
@@ -59,6 +49,12 @@ namespace MameMiner
                             files.Count());
                     }));
 
+                    var f = new ICSharpCode.SharpZipLib.Zip.ZipFile(files[iFile]);
+                    foreach(ZipEntry fx in f)
+                    {
+                        _dataEngine.Insert(files[iFile], fx.Name, fx.Size.ToString(), fx.Crc.ToString());
+                    }
+                    
                     System.Threading.Thread.Sleep(0);
 
                 }

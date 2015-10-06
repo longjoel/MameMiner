@@ -46,5 +46,17 @@ namespace MameMiner.Properties {
                 this["RomArchivePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Mame\\Roms")]
+        public string RomExportPath {
+            get {
+                return ((string)(this["RomExportPath"]));
+            }
+            set {
+                this["RomExportPath"] = value;
+            }
+        }
     }
 }

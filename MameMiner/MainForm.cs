@@ -68,9 +68,17 @@ namespace MameMiner
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ResetDatabase()
         {
             if (File.Exists("Roms.db")) {
+                if(_romDataEngine != null)
+                {
+                    _romDataEngine.Dispose();
+                    _romDataEngine = null;
+                }
                 File.Delete("Roms.db");
             }
 
@@ -107,6 +115,11 @@ namespace MameMiner
             if (SearchResultsListBox.SelectedIndex != -1)
             {
                 var g = (GameData)SearchResultsListBox.SelectedItem;
+                this.RomDataContainerPanel.Controls.Clear();
+                this.RomDataContainerPanel.Controls.Add(new GameDataView(g, _romDataEngine)
+                {
+                    Dock = DockStyle.Fill
+                });
 
                 this.ApplicationLogTextBox.Text = g.FullText;
             }

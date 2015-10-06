@@ -92,7 +92,6 @@
             this.Name = "ImportRomsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Importing Roms";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.ImportRomsForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

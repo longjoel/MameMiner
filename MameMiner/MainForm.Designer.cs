@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.regenerateDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.ActivityDetailsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -38,17 +41,16 @@
             this.ApplicationLogTextBox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.SearchResultsListBox = new System.Windows.Forms.ListBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.regenerateDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RomDataContainerPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.MainStatusStrip.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -71,6 +73,32 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(996, 631);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(996, 26);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.regenerateDatabaseToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // regenerateDatabaseToolStripMenuItem
+            // 
+            this.regenerateDatabaseToolStripMenuItem.Name = "regenerateDatabaseToolStripMenuItem";
+            this.regenerateDatabaseToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
+            this.regenerateDatabaseToolStripMenuItem.Text = "&Regenerate Database";
+            this.regenerateDatabaseToolStripMenuItem.Click += new System.EventHandler(this.regenerateDatabaseToolStripMenuItem_Click);
             // 
             // MainStatusStrip
             // 
@@ -155,6 +183,10 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.SearchResultsListBox);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.RomDataContainerPanel);
             this.splitContainer1.Size = new System.Drawing.Size(990, 367);
             this.splitContainer1.SplitterDistance = 330;
             this.splitContainer1.TabIndex = 4;
@@ -171,31 +203,13 @@
             this.SearchResultsListBox.TabIndex = 0;
             this.SearchResultsListBox.SelectedIndexChanged += new System.EventHandler(this.SearchResultsListBox_SelectedIndexChanged);
             // 
-            // menuStrip1
+            // RomDataContainerPanel
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(996, 26);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.regenerateDatabaseToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
-            this.fileToolStripMenuItem.Text = "&File";
-            // 
-            // regenerateDatabaseToolStripMenuItem
-            // 
-            this.regenerateDatabaseToolStripMenuItem.Name = "regenerateDatabaseToolStripMenuItem";
-            this.regenerateDatabaseToolStripMenuItem.Size = new System.Drawing.Size(227, 26);
-            this.regenerateDatabaseToolStripMenuItem.Text = "&Regenerate Database";
-            this.regenerateDatabaseToolStripMenuItem.Click += new System.EventHandler(this.regenerateDatabaseToolStripMenuItem_Click);
+            this.RomDataContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RomDataContainerPanel.Location = new System.Drawing.Point(0, 0);
+            this.RomDataContainerPanel.Name = "RomDataContainerPanel";
+            this.RomDataContainerPanel.Size = new System.Drawing.Size(656, 367);
+            this.RomDataContainerPanel.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -209,6 +223,8 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.MainStatusStrip.ResumeLayout(false);
             this.MainStatusStrip.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -216,10 +232,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -239,6 +254,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem regenerateDatabaseToolStripMenuItem;
+        private System.Windows.Forms.Panel RomDataContainerPanel;
     }
 }
 
