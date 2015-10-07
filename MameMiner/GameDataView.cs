@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.IO;
+using System.IO.Compression;
+
+using Ionic.Zip;
+
 namespace MameMiner
 {
     public partial class GameDataView : UserControl
@@ -84,9 +89,55 @@ namespace MameMiner
             
         }
 
+        private byte[] GetZipFileByName(string fileName, string zipName)
+        {
+            var zf = ZipFile.Read(zipName);
+            var ze = zf.Where(x => x.FileName.ToLower().Contains(fileName.ToLower())).FirstOrDefault();
+
+            var ms = new MemoryStream();
+
+            if (ze != null)
+            {
+                ze.Extract(ms);
+
+                return ms.ToArray();
+            }
+
+            return null;
+        }
+
         private void ExportButton_Click(object sender, EventArgs e)
         {
+            this.ExportButton.Enabled = false;
 
+            Task.Factory.StartNew(() => {
+
+                var exportPath = Path.Combine(Properties.Settings.Default.RomExportPath,
+                _gameData.GameName + ".zip");
+
+                using (var zf = new ZipFile(exportPath))
+                {
+
+                    for (int i = 0; i < _gameData.FileNames.Count; i++)
+                    {
+                        var qr = _dataEngine.Query(_gameData.FileNames[i], _gameData.Crc32s[i]).FirstOrDefault();
+
+                        if (qr != null)
+                        {
+                            var data = GetZipFileByName(_gameData.FileNames[i], qr.ContainerPath);
+                            zf.AddEntry(_gameData.FileNames[i], data);
+                        }
+
+                    }
+                    zf.Save();
+                }
+
+                Invoke(new Action(() => {
+                    this.ExportButton.Enabled = true;
+                }));
+            });
+
+            
         }
     }
 }

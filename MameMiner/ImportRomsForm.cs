@@ -10,8 +10,7 @@ using System.Windows.Forms;
 
 using System.IO;
 
-using ICSharpCode.SharpZipLib;
-using ICSharpCode.SharpZipLib.Zip;
+using Ionic.Zip;
 
 namespace MameMiner
 {
@@ -49,10 +48,10 @@ namespace MameMiner
                             files.Count());
                     }));
 
-                    var f = new ICSharpCode.SharpZipLib.Zip.ZipFile(files[iFile]);
+                    var f = new ZipFile(files[iFile]);
                     foreach(ZipEntry fx in f)
                     {
-                        _dataEngine.Insert(files[iFile], fx.Name, fx.Size.ToString(), fx.Crc.ToString());
+                        _dataEngine.Insert(files[iFile], fx.FileName, fx.UncompressedSize.ToString(), fx.Crc.ToString());
                     }
                     
                     System.Threading.Thread.Sleep(0);
