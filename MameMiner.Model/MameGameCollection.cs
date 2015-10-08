@@ -7,8 +7,21 @@ using System.Threading.Tasks;
 
 namespace MameMiner.Model
 {
-    public class MameGameCollection : ICollection<MameGame>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class MameGameCollection : IReadOnlyCollection<MameGame>
     {
+
+        private List<MameGame> _mameGames;
+
+        public MameGameCollection()
+        {
+            _mameGames = new List<MameGame>();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public int Count
         {
             get
@@ -17,44 +30,19 @@ namespace MameMiner.Model
             }
         }
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Add(MameGame item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(MameGame item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CopyTo(MameGame[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<MameGame> GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(MameGame item)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();

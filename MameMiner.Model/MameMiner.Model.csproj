@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilesystemZipFileEntry.cs" />
     <Compile Include="MameGame.cs" />
     <Compile Include="MameGameCollection.cs" />
     <Compile Include="MameGameRomDetails.cs" />
