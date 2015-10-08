@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="MamePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\Mame\Mame64.exe</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RomArchivePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\MameRomArchive</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RomExportPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\Mame\Roms</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

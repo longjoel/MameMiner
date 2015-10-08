@@ -52,6 +52,10 @@ namespace MameMiner
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Program.CheckMamePath();
+            Program.CheckImportPath();
+            Program.CheckExportPath();
+
             LoadMasterGameList();
 
             if (!File.Exists("roms.db"))

@@ -25,7 +25,7 @@ namespace MameMiner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Mame\\Mame64.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MamePath {
             get {
                 return ((string)(this["MamePath"]));
@@ -37,7 +37,7 @@ namespace MameMiner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\MameRomArchive")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RomArchivePath {
             get {
                 return ((string)(this["RomArchivePath"]));
@@ -49,7 +49,7 @@ namespace MameMiner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\Mame\\Roms")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RomExportPath {
             get {
                 return ((string)(this["RomExportPath"]));
