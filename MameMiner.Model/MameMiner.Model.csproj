@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilesystemZipFileEntry.cs" />
-    <Compile Include="MameGame.cs" />
-    <Compile Include="MameGameCollection.cs" />
-    <Compile Include="MameGameRomDetails.cs" />
+    <Compile Include="Model\MameGameZipFileEntry.cs" />
+    <Compile Include="Model\MameGame.cs" />
+    <Compile Include="Model\MameGameCollection.cs" />
+    <Compile Include="Model\MameGameRomDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IMameGameRepository.cs" />
+    <Compile Include="Service\IMameCommunicationService.cs" />
+    <Compile Include="Service\StandardMameCommunicationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

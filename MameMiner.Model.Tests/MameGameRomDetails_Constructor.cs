@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using MameMiner.Model;
+using MameMiner.Model.Model;
 
 
 namespace MameMiner.Model.Tests
