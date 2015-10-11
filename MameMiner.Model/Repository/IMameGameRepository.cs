@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using MameMiner.Model.Model;
+
 namespace MameMiner.Model.Repository
 {
     /// <summary>
@@ -11,6 +13,6 @@ namespace MameMiner.Model.Repository
     /// </summary>
     public interface IMameGameRepository
     {
-
+        List<MameGame> SearchForGame(string searchTerm, int maxResults);
     }
 }

@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.Model.Tests", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.WPF", "MameMiner.WPF\MameMiner.WPF.csproj", "{697F5045-06D8-4C96-9B01-93160C76F7B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{80A6384A-A62B-4928-8266-7AB22FA5E0A4}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Object Model.odg = Documentation\Object Model.odg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -9,7 +9,11 @@ using System.Diagnostics;
 
 namespace MameMiner.Model.Service
 {
-    public class StandardMameCommunicationService : IMameCommunicationService
+
+    /// <summary>
+    /// 
+    /// </summary>
+    class StandardMameCommunicationService : IMameCommunicationService
     {
         private string _pathToMameExecutable;
 

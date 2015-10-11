@@ -9,7 +9,7 @@ namespace MameMiner.Model.Model
     /// <summary>
     /// This describes the contents of a zip file entry
     /// </summary>
-    public class MameGameZipFileEntry
+    public class ZipFileEntry
     {
         /// <summary>
         /// 
@@ -43,7 +43,7 @@ namespace MameMiner.Model.Model
         /// <param name="fileSize"></param>
         /// <param name="crc"></param>
         /// <param name="sha1"></param>
-        public MameGameZipFileEntry(string zipFileFileName, string fileName, long fileSize, long crc, string sha1)
+        public ZipFileEntry(string zipFileFileName, string fileName, long fileSize, long crc, string sha1)
         {
             FileName = fileName;
             FileSize = fileSize;

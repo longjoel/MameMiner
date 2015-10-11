@@ -9,7 +9,7 @@ namespace MameMiner.Model.Service
     /// <summary>
     /// The mame communication service wraps 
     /// </summary>
-    interface IMameCommunicationService
+    public interface IMameCommunicationService
     {
         /// <summary>
         /// This generates a complete list of games from MAME.
