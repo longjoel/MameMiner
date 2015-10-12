@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using System.Security.Cryptography;
 using System.Data.SQLite;
 
 using Ionic.Zip;
+
 
 namespace MameMiner.Model.Service
 {
@@ -17,6 +18,10 @@ namespace MameMiner.Model.Service
     /// </summary>
     class StandardZipFileService : IZipFileService
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
         const string CMDCreateTable = @"CREATE TABLE RomFileDetails( 
             ContainerPath char(255),
             RomName char(80),
@@ -51,6 +56,7 @@ namespace MameMiner.Model.Service
             SHA1
             FROM RomFileDetails WHERE RomName = @RomName";
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -59,19 +65,31 @@ namespace MameMiner.Model.Service
         /// <summary>
         /// 
         /// </summary>
-        public StandardZipFileService()
+        private string _dbPath;
+
+        private IMameMinerSettingsService _settingsService;
+        /// <summary>
+        /// 
+        /// </summary>
+        public StandardZipFileService(IMameMinerSettingsService settingsService)
         {
-            var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData,
+            _dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData,
                 Environment.SpecialFolderOption.Create), "mame_games.db");
 
-            _connectionString = string.Format("Data Source={0};Version=3;", dbPath);
+            _connectionString = string.Format("Data Source={0};Version=3;", _dbPath);
 
+            _settingsService = settingsService;
         }
 
-        ///
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="fileContents"></param>
         public void AddFileToZipFile(string zipFileName, string fileName, byte[] fileContents)
         {
-            if(!File.Exists(zipFileName))
+            if (!File.Exists(zipFileName))
             {
                 CreateZipFile(zipFileName);
             }
@@ -82,14 +100,33 @@ namespace MameMiner.Model.Service
             zf.Save();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void CreateDatabase()
         {
-           
+            DestroyDatabase();
+
+            using (var conn = new SQLiteConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (var cmd = new SQLiteCommand(CMDCreateTable, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                conn.Close();
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
         public void CreateZipFile(string zipFileName)
         {
-           if(File.Exists(zipFileName))
+            if (File.Exists(zipFileName))
             {
                 File.Delete(zipFileName);
             }
@@ -98,19 +135,97 @@ namespace MameMiner.Model.Service
             zf.Save();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void DestroyDatabase()
         {
-            throw new NotImplementedException();
+            if (File.Exists(_dbPath))
+                File.Delete(_dbPath);
         }
 
-        public DataTable QueryDatabase(IDbCommand command)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public long GetFileCRC(string zipFileName, string fileName)
         {
-            throw new NotImplementedException();
+            var zf = ZipFile.Read(zipFileName);
+            var ze = zf.Where(x => x.FileName.ToLower().Contains(fileName.ToLower())).FirstOrDefault();
+
+            return ze.Crc;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public string GetFileSHA1(string zipFileName, string fileName)
+        {
+            var bytes = this.ReadFile(zipFileName, fileName);
+            var hash = SHA1.Create().ComputeHash(bytes);
+
+
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public long GetFileSize(string zipFileName, string fileName)
+        {
+            var zf = ZipFile.Read(zipFileName);
+            var ze = zf.Where(x => x.FileName.ToLower().Contains(fileName.ToLower())).FirstOrDefault();
+
+            return ze.UncompressedSize;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public DataTable QueryDatabase(string romName)
+        {
+            var dt = new DataTable();
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var cmd = new SQLiteCommand(CMDSearchByRomName))
+                {
+                    cmd.Parameters.AddWithValue("@RomName", romName);
+                    var da = new SQLiteDataAdapter(cmd).Fill(dt);
+                }
+
+                connection.Close();
+            }
+
+            return dt;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<string> ReadAllFileNames()
         {
-            throw new NotImplementedException();
+            return Directory.EnumerateFiles(_settingsService.GetSettings().RomImportPath, "*.*", SearchOption.AllDirectories).ToList();
         }
 
         /// <summary>
@@ -136,14 +251,44 @@ namespace MameMiner.Model.Service
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <returns></returns>
         public List<string> ReadZipFileTOC(string zipFileName)
         {
-            throw new NotImplementedException();
+            return ZipFile.Read(zipFileName).Select(x => x.FileName).ToList();
         }
 
-        public void WriteToDatabase(List<IDbCommand> commands)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="romName"></param>
+        /// <param name="fileSize"></param>
+        /// <param name="crc32"></param>
+        /// <param name="sha1"></param>
+        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1)
         {
-            throw new NotImplementedException();
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var cmd = new SQLiteCommand(CMDSearchByRomName))
+                {
+                    cmd.Parameters.AddWithValue("@ContainerPath", zipFileName);
+                    cmd.Parameters.AddWithValue("@RomName", romName);
+                    cmd.Parameters.AddWithValue("@FileSize", fileSize);
+                    cmd.Parameters.AddWithValue("@CRC32", crc32);
+                    cmd.Parameters.AddWithValue("@SHA1", sha1);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
         }
+        
     }
 }

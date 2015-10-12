@@ -33,7 +33,7 @@ namespace MameMiner.Model.Repository
                 }
                 else if (repositoryType == typeof(IZipFileRepository))
                 {
-                    var s = new ZipFileRepository();
+                    var s = new ZipFileRepository(Service.ServiceManager.GetInstanceOf<IZipFileService>());
                     _repositoryCache[repositoryType] = s;
                 }
             }

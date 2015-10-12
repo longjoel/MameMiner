@@ -9,6 +9,7 @@ using MameMiner.Model.Service;
 
 namespace MameMiner.Model.Repository
 {
+    //
     class MameGameRepository : IMameGameRepository
     {
         IMameCommunicationService _communicationService;
