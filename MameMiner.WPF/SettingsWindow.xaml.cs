@@ -66,5 +66,20 @@ namespace MameMiner.WPF
                 _settingsService.SetMameImportPath(this.RomImportPathTextBox.Text);
             }
         }
+
+        private void PathToMameExeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RomImportPathButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GameExportPathButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

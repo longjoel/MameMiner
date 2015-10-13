@@ -17,9 +17,9 @@
 
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Margin="5">Path To Mame Executable</TextBlock>
-        <TextBlock Grid.Row="2" Margin="5">Rom Import Path</TextBlock>
-        <TextBlock Grid.Row="4" Margin="5">Game Export Path</TextBlock>
+        <TextBlock Grid.Row="0" Margin="5" FontSize="21.333">Path To Mame Executable</TextBlock>
+        <TextBlock Grid.Row="2" Margin="5" FontSize="21.333">Rom Import Path</TextBlock>
+        <TextBlock Grid.Row="4" Margin="5" FontSize="21.333">Game Export Path</TextBlock>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -28,7 +28,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="PathToMameExeTextBox"></TextBox>
-            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="10" Name="PathToMameExeButton" Click="PathToMameExeButton_Click">
+                <Image Source="folder-black.png" Width="24"/>
+            </Button>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -38,7 +40,10 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="RomImportPathTextBox"></TextBox>
-            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="10" Name="RomImportPathButton" Click="RomImportPathButton_Click">
+                <Image Source="folder-black.png" Width="24"/>
+
+            </Button>
         </Grid>
 
         <Grid Grid.Row="5">
@@ -48,10 +53,13 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="GameExportPathTextBox"></TextBox>
-            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="10" Name="GameExportPathButton" Click="GameExportPathButton_Click">
+                <Image Source="folder-black.png" Width="24"/>
+
+            </Button>
         </Grid>
 
-    
+
 
 
 
