@@ -67,10 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMameMinerSettingsService.cs" />
     <Compile Include="MameMinerAppSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IMameCommunicationService.cs" />
-    <Compile Include="IMameMinerSettingsService.cs" />
     <Compile Include="IZipFileService.cs" />
     <Compile Include="MameMinerSettingsService.cs" />
     <Compile Include="ServiceManager.cs" />

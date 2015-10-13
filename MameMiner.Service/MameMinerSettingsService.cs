@@ -26,7 +26,7 @@ namespace MameMiner.Service
         public MameMinerSettingsService()
         {
             _settingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, 
-                Environment.SpecialFolderOption.Create), "settings.xml");
+                Environment.SpecialFolderOption.Create),"MameMiner", "settings.xml");
 
             LoadMameMinerSettings();
         }
@@ -78,6 +78,12 @@ namespace MameMiner.Service
             var sw = new StringWriter();
 
             sx.Serialize(sw, _settings);
+
+
+            if (!Directory.Exists(Path.GetDirectoryName(_settingsPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(_settingsPath));
+            }
 
             File.WriteAllText(_settingsPath, sw.ToString());
 

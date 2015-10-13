@@ -1,0 +1,59 @@
+﻿<Window x:Class="MameMiner.WPF.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MameMiner.WPF"
+        mc:Ignorable="d"
+        Title="Mame Miner Application Settings" Height="400" Width="761" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Margin="5">Path To Mame Executable</TextBlock>
+        <TextBlock Grid.Row="2" Margin="5">Rom Import Path</TextBlock>
+        <TextBlock Grid.Row="4" Margin="5">Game Export Path</TextBlock>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="PathToMameExeTextBox"></TextBox>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="RomImportPathTextBox"></TextBox>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1" VerticalAlignment="Center" Margin="5" Name="GameExportPathTextBox"></TextBox>
+            <Button Grid.Column="2" VerticalAlignment="Center" Margin="5">Path</Button>
+        </Grid>
+
+    
+
+
+
+    </Grid>
+</Window>

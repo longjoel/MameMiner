@@ -5,24 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MameMiner.WPF"
         mc:Ignorable="d"
-        Title="Mame Miner" Height="350" Width="525">
+        Title="Mame Miner" Height="397.886" Width="877.612">
+   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" IsMainMenu="True">
-            <MenuItem Header="_File" />
-            <MenuItem Header="_Edit" />
-            <MenuItem Header="_View" />
-            <MenuItem Header="_Window" />
-            <MenuItem Header="_Help" />
+            <MenuItem Header="_File" >
+                <MenuItem Header="_Settings" Name="SettingsMenuItem" Click="SettingsMenuItem_Click"/>
+                <MenuItem Header="_Generate Zip File Database" Name="GenerateZipFileDBMenuItem" Click="GenerateZipFileDBMenuItem_Click"/>
+                <MenuItem Header="_Exit" Name="ExitMenuItem" Click="ExitMenuItem_Click"/>
+
+            </MenuItem>
+
+            <MenuItem Header="_Help" >
+                <MenuItem Header="_About" IsEnabled="False"/>
+                <MenuItem Header="_Online Help" IsEnabled="False"/>
+
+            </MenuItem>
         </Menu>
-        <StatusBar Grid.Row="2">
-            <TextBlock>Status</TextBlock>
+
+        <TextBox Grid.Row="1" FontSize="32px" VerticalAlignment="Center" Margin="5" Name="SearchTextBox"/>
+
+        <StatusBar Grid.Row="3">
+            <TextBlock Name="ApplicationStatusText">Status</TextBlock>
         </StatusBar>
-        
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="300*"/>
+
+
+            </Grid.ColumnDefinitions>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+
+            <ListView Grid.Column="0" Margin="5" Name="SearchResultsListView">
+               
+            </ListView>
+
+            <Grid Grid.Column="2" Name="RomDetailsContainerGrid" Margin="5"></Grid>
+
+        </Grid>
     </Grid>
 </Window>
