@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MameMiner.Model.Service;
+using MameMiner.Service;
 
-namespace MameMiner.Model.Repository
+namespace MameMiner.Repository
 {
     public static class RepositoryManager
     {

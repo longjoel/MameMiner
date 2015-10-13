@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
     /// <summary>
     /// 
@@ -35,10 +35,17 @@ namespace MameMiner.Model.Service
 
                 if(serviceType == typeof(IMameCommunicationService))
                 {
-
-
                     var s = new StandardMameCommunicationService(GetInstanceOf<IMameMinerSettingsService>()
-                        .GetSettings().PathToMameExecutable);
+                        .GetMameExecutablePath());
+                    _serviceCache[serviceType] = s;
+
+                }
+
+                if (serviceType == typeof(IZipFileService))
+                {
+                    var s = new StandardZipFileService(GetInstanceOf<IMameMinerSettingsService>());
+                    _serviceCache[serviceType] = s;
+
                 }
             }
 

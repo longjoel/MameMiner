@@ -11,7 +11,7 @@ using System.Data.SQLite;
 using Ionic.Zip;
 
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
     /// <summary>
     /// 
@@ -225,7 +225,7 @@ namespace MameMiner.Model.Service
         /// <returns></returns>
         public List<string> ReadAllFileNames()
         {
-            return Directory.EnumerateFiles(_settingsService.GetSettings().RomImportPath, "*.*", SearchOption.AllDirectories).ToList();
+            return Directory.EnumerateFiles(_settingsService.GetMameImportPath(), "*.*", SearchOption.AllDirectories).ToList();
         }
 
         /// <summary>
@@ -261,15 +261,7 @@ namespace MameMiner.Model.Service
             return ZipFile.Read(zipFileName).Select(x => x.FileName).ToList();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="zipFileName"></param>
-        /// <param name="romName"></param>
-        /// <param name="fileSize"></param>
-        /// <param name="crc32"></param>
-        /// <param name="sha1"></param>
-        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1)
+        void IZipFileService.WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {

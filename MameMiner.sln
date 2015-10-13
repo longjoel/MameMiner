@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		Documentation\Object Model.odg = Documentation\Object Model.odg
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.Repository", "MameMiner.Repository\MameMiner.Repository.csproj", "{0E86874C-8715-433F-B72F-D77F155E3175}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.Service", "MameMiner.Service\MameMiner.Service.csproj", "{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,14 @@ Global
 		{697F5045-06D8-4C96-9B01-93160C76F7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{697F5045-06D8-4C96-9B01-93160C76F7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{697F5045-06D8-4C96-9B01-93160C76F7B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E86874C-8715-433F-B72F-D77F155E3175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E86874C-8715-433F-B72F-D77F155E3175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E86874C-8715-433F-B72F-D77F155E3175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E86874C-8715-433F-B72F-D77F155E3175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MameMiner.Model.Model;
 
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
 
     /// <summary>
@@ -32,19 +31,28 @@ namespace MameMiner.Model.Service
             LoadMameMinerSettings();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public MameMinerAppSettings GetSettings()
+        public string GetMameExecutablePath()
         {
-            return _settings;
+            LoadMameMinerSettings();
+            return _settings.PathToMameExecutable;
+        }
+
+        public string GetMameExportPath()
+        {
+            LoadMameMinerSettings();
+            return _settings.GameExportPath;
+        }
+
+        public string GetMameImportPath()
+        {
+            LoadMameMinerSettings();
+            return _settings.RomImportPath;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void LoadMameMinerSettings()
+        void LoadMameMinerSettings()
         {
             if(!File.Exists(_settingsPath))
             {
@@ -64,7 +72,7 @@ namespace MameMiner.Model.Service
         /// <summary>
         /// 
         /// </summary>
-        public void SaveMameMinerSettings()
+        void SaveMameMinerSettings()
         {
             var sx = new XmlSerializer(typeof(MameMinerAppSettings));
             var sw = new StringWriter();
@@ -74,5 +82,26 @@ namespace MameMiner.Model.Service
             File.WriteAllText(_settingsPath, sw.ToString());
 
         }
+
+        public void SetMameExecutablePath(string p)
+        {
+            _settings.PathToMameExecutable = p;
+            SaveMameMinerSettings();
+
+        }
+
+        public void SetMameExportPath(string p)
+        {
+            _settings.GameExportPath = p;
+            SaveMameMinerSettings();
+        
+        }
+
+        public void SetMameImportPath(string p)
+        {
+            _settings.RomImportPath = p;
+            SaveMameMinerSettings();
+        }
+
     }
 }

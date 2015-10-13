@@ -5,8 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Model
+namespace MameMiner.Model
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MameGame : IReadOnlyCollection<MameGameRomDetails>
     {
         /// <summary>

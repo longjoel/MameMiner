@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
 
     /// <summary>

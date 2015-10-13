@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MameMiner.Model.Model;
 
-namespace MameMiner.Model.Repository
+using MameMiner.Model;
+using MameMiner.Service;
+
+namespace MameMiner.Repository
 {
     /// <summary>
     /// 

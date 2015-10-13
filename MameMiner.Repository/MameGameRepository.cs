@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MameMiner.Model.Model;
 
-using MameMiner.Model.Service;
+using MameMiner.Service;
+using MameMiner.Model;
 
-namespace MameMiner.Model.Repository
+namespace MameMiner.Repository
 {
-    //
+    /// <summary>
+    /// s
+    /// </summary>
     class MameGameRepository : IMameGameRepository
     {
         IMameCommunicationService _communicationService;

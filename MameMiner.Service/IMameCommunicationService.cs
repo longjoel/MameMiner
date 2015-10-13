@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
     /// <summary>
     /// The mame communication service wraps 

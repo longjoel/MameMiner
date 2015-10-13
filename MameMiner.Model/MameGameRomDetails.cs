@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Model
+namespace MameMiner.Model
 {
     /// <summary>
     /// Mame Game Rom Details - Includes the rom name, the sha1 hash, the rom CRC, and the file size

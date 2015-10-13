@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Model
+namespace MameMiner.Model
 {
     /// <summary>
     /// This describes the contents of a zip file entry

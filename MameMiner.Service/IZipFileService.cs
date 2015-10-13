@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace MameMiner.Model.Service
+namespace MameMiner.Service
 {
     public interface IZipFileService
     {
@@ -30,7 +30,7 @@ namespace MameMiner.Model.Service
         /// 
         /// </summary>
         /// <param name="commands"></param>
-        void WriteToDatabase(string containerName, string romName, long fileSize, long crc32, string sha1);
+        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1);
 
         /// <summary>
         /// 

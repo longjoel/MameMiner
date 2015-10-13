@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MameMiner.Model.Model
+namespace MameMiner.Service
 {
     [Serializable]
     public class MameMinerAppSettings
@@ -23,5 +23,12 @@ namespace MameMiner.Model.Model
         /// 
         /// </summary>
         public string GameExportPath { get; set; }
+
+        public MameMinerAppSettings()
+        {
+            PathToMameExecutable = "";
+            RomImportPath = "";
+            GameExportPath = "";
+        }
     }
 }

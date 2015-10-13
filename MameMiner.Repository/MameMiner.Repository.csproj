@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90FB7EB9-CE82-430F-A847-C9A6805BF7F6}</ProjectGuid>
+    <ProjectGuid>{0E86874C-8715-433F-B72F-D77F155E3175}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MameMiner.Model</RootNamespace>
-    <AssemblyName>MameMiner.Model</AssemblyName>
+    <RootNamespace>MameMiner.Repository</RootNamespace>
+    <AssemblyName>MameMiner.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,14 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ZipFileEntry.cs" />
-    <Compile Include="MameGame.cs" />
-    <Compile Include="MameGameRomDetails.cs" />
-    <Compile Include="MameMinerAppSettings.cs" />
+    <Compile Include="IMameGameRepository.cs" />
+    <Compile Include="IZipFileRepository.cs" />
+    <Compile Include="MameGameRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryManager.cs" />
+    <Compile Include="ZipFileRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\MameMiner.Model\MameMiner.Model.csproj">
+      <Project>{90fb7eb9-ce82-430f-a847-c9a6805bf7f6}</Project>
+      <Name>MameMiner.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MameMiner.Service\MameMiner.Service.csproj">
+      <Project>{7f6c84f6-b445-4e7a-8cdd-a6c20e95d8f4}</Project>
+      <Name>MameMiner.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
