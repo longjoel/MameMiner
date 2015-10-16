@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MameMiner.Model;
 using MameMiner.Repository;
 using MameMiner.Service;
 
@@ -23,45 +24,178 @@ namespace MameMiner.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        IZipFileService _zipFileService;
         IZipFileRepository _zipFileRepository;
         IMameGameRepository _gameRepository;
         IMameMinerSettingsService _settingsService;
 
-       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
         public void SetStatus(string status)
         {
-            this.ApplicationStatusText.Text = status;
+            Dispatcher.Invoke(() => this.ApplicationStatusText.Text = status);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public MainWindow()
         {
             _zipFileRepository = RepositoryManager.GetInstanceOf<IZipFileRepository>();
             _gameRepository = RepositoryManager.GetInstanceOf<IMameGameRepository>();
             _settingsService = ServiceManager.GetInstanceOf<IMameMinerSettingsService>();
+            _zipFileService = ServiceManager.GetInstanceOf<IZipFileService>();
 
             InitializeComponent();
 
             SetStatus("Main Window Created");
 
-            if(_settingsService.GetMameExecutablePath() == string.Empty || _settingsService.GetMameExportPath() == string.Empty || _settingsService.GetMameImportPath() == string.Empty)
+            if (_settingsService.GetMameExecutablePath() == string.Empty || _settingsService.GetMameExportPath() == string.Empty || _settingsService.GetMameImportPath() == string.Empty)
             {
-
+                new SettingsWindow(_settingsService).ShowDialog();
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             new SettingsWindow(_settingsService).ShowDialog();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GenerateZipFileDBMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            BuildFileDatabase();
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        void SearchForRoms()
+        {
+            var searchQuery = SearchTextBox.Text;
+
+            this.SearchResultsListBox.DisplayMemberPath = "GameDescription";
+            this.SearchResultsListBox.Items.Clear();
+
+            SetStatus("Searching for: " + searchQuery);
+
+            SearchTextBox.IsEnabled = false;
+
+            Task.Factory.StartNew(() =>
+            {
+
+                var games = _gameRepository.SearchForGame(searchQuery, 100);
+
+                foreach (var g in games)
+                {
+                    this.Dispatcher.Invoke(() => this.SearchResultsListBox.Items.Add(g));
+                    SetStatus(string.Format("Found: " + g.GameDescription));
+
+                }
+
+                this.Dispatcher.Invoke(() => SearchTextBox.IsEnabled = true);
+                SetStatus(string.Format("Search Complete!"));
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void BuildFileDatabase()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                SetStatus("Buidling Database...");
+
+                var files = _zipFileService.ReadAllFileNames();
+                int i = 0;
+                int maxFiles = files.Count;
+
+                foreach (var f in files)
+                {
+                    double percent = ((double)(i + 1) / (double)maxFiles);
+
+                    SetStatus(string.Format("{0:P2} Parsing: {1}.", percent, f));
+
+                    if (f.ToLower().Contains(".zip"))
+                    {
+                        foreach (var fx in _zipFileRepository.GetZipFileContents(f))
+                        {
+                            // Avoid duplicates
+                            if (!_zipFileRepository.SearchForRom(fx.FileName, fx.FileSize, fx.CRC).Any())
+                            {
+                                fx.ZipFileContainer = f;
+                                _zipFileRepository.InsertRom(fx);
+                                SetStatus(string.Format("{1} added to database.", fx.FileName));
+                            }
+                            else
+                            {
+                                SetStatus(string.Format("{0} already in db.", fx.FileName));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SetStatus(string.Format("Skipping non-zip file {0}.", f));
+
+                    }
+
+                    i++;
+                }
+
+                SetStatus("Build Complete");
+
+            });
+
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+            {
+                SearchForRoms();
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchResultsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.RomDetailsContainerGrid.Children.Clear();
+
+            this.RomDetailsContainerGrid.Children.Add(new RomDetailsView((MameGame)SearchResultsListBox.SelectedItem));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MameMiner.Model
         /// <summary>
         /// The 32 bit crc check of the file - ex. c1e6ab10 - but it will be stored as 3253119760
         /// </summary>
-        public long RomCRC { get; private set; }
+        public long CRC { get; private set; }
 
         /// <summary>
         /// The size of the file in bytes - ex. 4096
@@ -59,7 +59,7 @@ namespace MameMiner.Model
         {
             RomName = romName;
             SHA1 = sha1;
-            RomCRC = romCRC;
+            CRC = romCRC;
             FileSize = fileSize;
             BadCRC = badCRC;
             BadSHA1 = badSHA1;
@@ -69,7 +69,7 @@ namespace MameMiner.Model
         /// 
         /// </summary>
         /// <param name="mameGameRomEntry"></param>
-        public MameGameRomDetails(string mameGameRomEntry) : this("N/A", "N/A", -1, -1, false, false)
+        public MameGameRomDetails(string mameGameRomEntry) : this("", "", long.MinValue, long.MinValue, false, false)
         {
             var tokens = mameGameRomEntry.Split(new string[] { " " },
                 StringSplitOptions.RemoveEmptyEntries);
@@ -89,13 +89,13 @@ namespace MameMiner.Model
             {
                 if (t.Contains("SHA"))
                 {
-                    this.SHA1 = t.Replace("SHA(", "").Replace(")", "");
+                    this.SHA1 = t.Replace("SHA1(", "").Replace(")", "");
                 }
 
                 if (t.Contains("CRC"))
                 {
                     longCRC = t.Replace("CRC(", "").Replace(")", "");
-                    this.RomCRC = long.Parse(t.Replace("CRC(", "").Replace(")", ""), System.Globalization.NumberStyles.HexNumber);
+                    this.CRC = long.Parse(t.Replace("CRC(", "").Replace(")", ""), System.Globalization.NumberStyles.HexNumber);
                 }
             }
 
@@ -119,7 +119,7 @@ namespace MameMiner.Model
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public MameGameRomDetails() : this("N/A", "N/A", -1, -1, false, false) { }
+        public MameGameRomDetails() : this("", "", long.MinValue, long.MinValue, false, false) { }
 
     }
 }

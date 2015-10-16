@@ -23,11 +23,10 @@ namespace MameMiner.Service
         /// 
         /// </summary>
         const string CMDCreateTable = @"CREATE TABLE RomFileDetails( 
-            ContainerPath char(255),
+            ContainerPath char(80),
             RomName char(80),
             FileSize long,
-            CRC32 long,
-            SHA1 char(160)";
+            CRC32 long)";
 
         /// <summary>
         /// An SQL Command to insert a new record into the database.
@@ -36,14 +35,12 @@ namespace MameMiner.Service
             ContainerPath, 
             RomName, 
             FileSize, 
-            CRC32,
-            SHA1) 
+            CRC32) 
             VALUES (
             @ContainerPath, 
             @RomName, 
             @FileSize, 
-            @CRC32,
-            @SHA1)";
+            @CRC32)";
 
         /// <summary>
         /// Search for the record using the name of the rom and crc32 of the file.
@@ -52,9 +49,8 @@ namespace MameMiner.Service
             ContainerPath, 
             RomName, 
             FileSize, 
-            CRC32,
-            SHA1
-            FROM RomFileDetails WHERE RomName = @RomName";
+            CRC32         
+            FROM RomFileDetails WHERE RomName = @RomName and FileSize = @FileSize and CRC32 = @CRC32";
 
 
         /// <summary>
@@ -74,9 +70,22 @@ namespace MameMiner.Service
         public StandardZipFileService(IMameMinerSettingsService settingsService)
         {
             _dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData,
-                Environment.SpecialFolderOption.Create), "mame_games.db");
+                Environment.SpecialFolderOption.Create), "MameMiner", "mame_games.db");
 
             _connectionString = string.Format("Data Source={0};Version=3;", _dbPath);
+
+            if (!Directory.Exists(Path.GetDirectoryName(_dbPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(_dbPath));
+               
+
+            }
+
+            if(!File.Exists(_dbPath))
+            {
+                CreateDatabase();
+            }
+
 
             _settingsService = settingsService;
         }
@@ -105,7 +114,7 @@ namespace MameMiner.Service
         /// </summary>
         public void CreateDatabase()
         {
-            DestroyDatabase();
+            //DestroyDatabase();
 
             using (var conn = new SQLiteConnection(_connectionString))
             {
@@ -158,27 +167,7 @@ namespace MameMiner.Service
             return ze.Crc;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="zipFileName"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public string GetFileSHA1(string zipFileName, string fileName)
-        {
-            var bytes = this.ReadFile(zipFileName, fileName);
-            var hash = SHA1.Create().ComputeHash(bytes);
-
-
-            var sb = new StringBuilder();
-            foreach (byte b in bytes)
-            {
-                var hex = b.ToString("x2");
-                sb.Append(hex);
-            }
-            return sb.ToString();
-
-        }
+      
 
         /// <summary>
         /// 
@@ -199,7 +188,7 @@ namespace MameMiner.Service
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public DataTable QueryDatabase(string romName)
+        public DataTable QueryDatabase(string romName, long crc32, long filesize)
         {
             var dt = new DataTable();
 
@@ -207,9 +196,11 @@ namespace MameMiner.Service
             {
                 connection.Open();
 
-                using (var cmd = new SQLiteCommand(CMDSearchByRomName))
+                using (var cmd = new SQLiteCommand(CMDSearchByRomName, connection))
                 {
                     cmd.Parameters.AddWithValue("@RomName", romName);
+                    cmd.Parameters.AddWithValue("@CRC32", crc32);
+                    cmd.Parameters.AddWithValue("@FileSize", filesize);
                     var da = new SQLiteDataAdapter(cmd).Fill(dt);
                 }
 
@@ -261,19 +252,19 @@ namespace MameMiner.Service
             return ZipFile.Read(zipFileName).Select(x => x.FileName).ToList();
         }
 
-        void IZipFileService.WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1)
+        void IZipFileService.WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
 
-                using (var cmd = new SQLiteCommand(CMDSearchByRomName))
+                using (var cmd = new SQLiteCommand(CMDInsertRecord, connection))
                 {
                     cmd.Parameters.AddWithValue("@ContainerPath", zipFileName);
                     cmd.Parameters.AddWithValue("@RomName", romName);
                     cmd.Parameters.AddWithValue("@FileSize", fileSize);
                     cmd.Parameters.AddWithValue("@CRC32", crc32);
-                    cmd.Parameters.AddWithValue("@SHA1", sha1);
+               
 
                     cmd.ExecuteNonQuery();
                 }
@@ -281,6 +272,6 @@ namespace MameMiner.Service
                 connection.Close();
             }
         }
-        
+
     }
 }

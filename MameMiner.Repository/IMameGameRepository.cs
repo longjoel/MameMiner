@@ -13,6 +13,6 @@ namespace MameMiner.Repository
     /// </summary>
     public interface IMameGameRepository
     {
-        List<MameGame> SearchForGame(string searchTerm, int maxResults);
+        IEnumerable<MameGame> SearchForGame(string searchTerm, int maxResults);
     }
 }

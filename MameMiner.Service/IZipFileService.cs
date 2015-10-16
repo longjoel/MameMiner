@@ -24,13 +24,13 @@ namespace MameMiner.Service
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        DataTable QueryDatabase(string romName);
+        DataTable QueryDatabase(string romName, long crc32, long filesize);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="commands"></param>
-        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32, string sha1);
+        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32);
 
         /// <summary>
         /// 
@@ -61,13 +61,7 @@ namespace MameMiner.Service
         /// <returns></returns>
         long GetFileCRC(string zipFileName, string fileName);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="zipFileName"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        string GetFileSHA1(string zipFileName, string fileName);
+      
 
         /// <summary>
         /// 

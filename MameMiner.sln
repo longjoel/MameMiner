@@ -22,6 +22,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.Repository", "Mam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MameMiner.Service", "MameMiner.Service\MameMiner.Service.csproj", "{7F6C84F6-B445-4E7A-8CDD-A6C20E95D8F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{A22D0523-5812-41D7-89E2-CFE571B74A86}"
+	ProjectSection(SolutionItems) = preProject
+		Dependencies\FolderPickerLib.dll = Dependencies\FolderPickerLib.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

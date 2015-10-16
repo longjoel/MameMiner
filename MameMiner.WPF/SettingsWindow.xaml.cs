@@ -14,6 +14,10 @@ using System.Windows.Shapes;
 
 using MameMiner.Service;
 
+using Microsoft.Win32;
+
+using FolderPickerLib;
+
 
 namespace MameMiner.WPF
 {
@@ -69,16 +73,53 @@ namespace MameMiner.WPF
 
         private void PathToMameExeButton_Click(object sender, RoutedEventArgs e)
         {
+            var ofd = new OpenFileDialog()
+            {
+                CheckFileExists = true,
+                DefaultExt = ".exe",
+                Filter = "(.exe)|*.exe",
+                Multiselect = false,
+                Title = "Mame File Location"
+            };
+
+            ofd.ShowDialog();
+            
+            if(ofd.FileName != string.Empty)
+            {
+                this.PathToMameExeTextBox.Text = ofd.FileName;
+            } 
 
         }
 
         private void RomImportPathButton_Click(object sender, RoutedEventArgs e)
         {
+            var ofd = new FolderPickerDialog()
+            {
+                Title = "Rom Import Path"
+            };
+
+            ofd.ShowDialog();
+
+            if(ofd.SelectedPath != string.Empty)
+            {
+                this.RomImportPathTextBox.Text = ofd.SelectedPath;
+            }
 
         }
 
         private void GameExportPathButton_Click(object sender, RoutedEventArgs e)
         {
+            var ofd = new FolderPickerDialog()
+            {
+                Title = "Game Export Path"
+            };
+
+            ofd.ShowDialog();
+
+            if (ofd.SelectedPath != string.Empty)
+            {
+                this.GameExportPathTextBox.Text = ofd.SelectedPath;
+            }
 
         }
     }

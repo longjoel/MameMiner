@@ -41,7 +41,7 @@ namespace MameMiner.Repository
 
             foreach (var r in roms)
             {
-                var bits = _zipFileService.ReadFile(r.ZipFileFileName, r.FileName);
+                var bits = _zipFileService.ReadFile(r.ZipFileContainer, r.FileName);
                 _zipFileService.AddFileToZipFile(zipFilePath, r.FileName, bits);
             }
         }
@@ -57,7 +57,7 @@ namespace MameMiner.Repository
 
             foreach (var m in game)
             {
-                var searchRomResults = SearchForRom(m.RomName);
+                var searchRomResults = SearchForRom(m.RomName, m.FileSize, m.CRC);
 
                 if (searchRomResults.Count == 0)
                 {
@@ -82,8 +82,7 @@ namespace MameMiner.Repository
             {
                 var zfe = new ZipFileEntry(zipFilePath, z,
                     _zipFileService.GetFileSize(zipFilePath, z),
-                    _zipFileService.GetFileSize(zipFilePath, z),
-                    _zipFileService.GetFileSHA1(zipFilePath, z));
+                    _zipFileService.GetFileCRC(zipFilePath, z));
 
                 contents.Add(zfe);
             }
@@ -117,7 +116,7 @@ namespace MameMiner.Repository
         /// <param name="entry"></param>
         public void InsertRom(ZipFileEntry entry)
         {
-            _zipFileService.WriteToDatabase(entry.ZipFileFileName, entry.FileName, entry.FileSize, entry.CRC, entry.SHA1);
+            _zipFileService.WriteToDatabase(entry.ZipFileContainer, entry.FileName, entry.FileSize, entry.CRC);
 
         }
 
@@ -129,14 +128,14 @@ namespace MameMiner.Repository
         /// <param name="crc"></param>
         /// <param name="sha1"></param>
         /// <returns></returns>
-        public List<ZipFileEntry> SearchForRom(string romName, long fileSize = long.MinValue, long crc = long.MinValue, string sha1 = "")
+        public List<ZipFileEntry> SearchForRom(string romName, long fileSize = long.MinValue, long crc = long.MinValue)
         {
             var zipFileEntries = new List<ZipFileEntry>();
-            var dt = _zipFileService.QueryDatabase(romName);
+            var dt = _zipFileService.QueryDatabase(romName, crc, fileSize);
 
             foreach(DataRow r in dt.Rows)
             {
-                var zfe = new ZipFileEntry(r[0].ToString(), r[1].ToString(), (long)r[2], (long)r[3], r[4].ToString());
+                var zfe = new ZipFileEntry(r[0].ToString(), r[1].ToString(), (long)r[2], (long)r[3]);
 
                 bool add = true;
 
@@ -152,11 +151,6 @@ namespace MameMiner.Repository
                         add = true;
                 }
 
-                if(sha1 != string.Empty)
-                {
-                    if (zfe.SHA1.ToLower() == sha1.ToLower())
-                        add = true;
-                }
 
                 if(add)
                 {

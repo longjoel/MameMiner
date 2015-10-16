@@ -34,7 +34,7 @@ namespace MameMiner.Repository
         /// <param name="searchTerm"></param>
         /// <param name="maxResults"></param>
         /// <returns></returns>
-        public List<MameGame> SearchForGame(string searchTerm, int maxResults)
+        public IEnumerable<MameGame> SearchForGame(string searchTerm, int maxResults)
         {
             if(_gameList == null)
             {
@@ -44,18 +44,20 @@ namespace MameMiner.Repository
                 _gameList = gList.ToArray();
             }
 
-            var lGames = new List<MameGame>();
+            //var lGames = new List<MameGame>();
 
             foreach(var l in _gameList.Where(g => g.ToLower().Contains(searchTerm.ToLower())).Take(maxResults))
             {
                 var entries = l.Split(new string[] { "  ","   " }, StringSplitOptions.RemoveEmptyEntries);
                 var gameName = entries[0].Trim();
-                var gameDescription = entries[1].Trim();
+                var gameDescription = entries[1].Trim().Replace("\"","");
 
-                lGames.Add(new MameGame(gameName, gameDescription, _communicationService.ListRoms(gameName)));
+                //lGames.Add(new MameGame(gameName, gameDescription, _communicationService.ListRoms(gameName)));
+
+                yield return new MameGame(gameName, gameDescription, _communicationService.ListRoms(gameName));
             }
 
-            return lGames;
+           // return lGames;
         }
     }
 }

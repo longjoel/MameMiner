@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MameMiner.WPF"
         mc:Ignorable="d"
-        Title="Mame Miner Application Settings" Height="400" Width="761" Topmost="True" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="Mame Miner Application Settings" Height="400" Width="800"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

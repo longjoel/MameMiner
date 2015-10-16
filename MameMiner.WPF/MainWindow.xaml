@@ -30,12 +30,13 @@
             </MenuItem>
         </Menu>
 
-        <TextBox Grid.Row="1" FontSize="32px" VerticalAlignment="Center" Margin="5" Name="SearchTextBox"/>
+        <TextBox Grid.Row="1" FontSize="24px" VerticalAlignment="Center" Margin="5" Name="SearchTextBox" KeyDown="SearchTextBox_KeyDown" />
 
         <StatusBar Grid.Row="3">
             <TextBlock Name="ApplicationStatusText">Status</TextBlock>
         </StatusBar>
 
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200*"/>
@@ -45,13 +46,14 @@
 
             </Grid.ColumnDefinitions>
 
+            <ListBox Grid.Row="0" Name="SearchResultsListBox" SelectionChanged="SearchResultsListBox_SelectionChanged"></ListBox>
+
+
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
 
-            <ListView Grid.Column="0" Margin="5" Name="SearchResultsListView">
-               
-            </ListView>
-
-            <Grid Grid.Column="2" Name="RomDetailsContainerGrid" Margin="5"></Grid>
+            <Grid Grid.Column="2" Name="RomDetailsContainerGrid" Margin="5">
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40px">Mame Miner</Label>
+            </Grid>
 
         </Grid>
     </Grid>
