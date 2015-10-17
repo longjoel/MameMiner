@@ -9,6 +9,7 @@ namespace MameMiner.Service
 {
     public interface IZipFileService
     {
+        
         /// <summary>
         /// 
         /// </summary>
@@ -24,13 +25,13 @@ namespace MameMiner.Service
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        DataTable QueryDatabase(string romName, long crc32, long filesize);
+        DataTable QueryDatabase(string romName, int crc32, long filesize);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="commands"></param>
-        void WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32);
+        void WriteToDatabase(string zipFileName, string romName, long fileSize, int crc32);
 
         /// <summary>
         /// 
@@ -59,7 +60,7 @@ namespace MameMiner.Service
         /// <param name="zipFileName"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        long GetFileCRC(string zipFileName, string fileName);
+        int GetFileCRC(string zipFileName, string fileName);
 
       
 

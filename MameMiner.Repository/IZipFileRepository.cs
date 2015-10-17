@@ -26,7 +26,7 @@ namespace MameMiner.Repository
         /// <param name="crc"></param>
         /// <param name="sha1"></param>
         /// <returns></returns>
-        List<ZipFileEntry> SearchForRom(string romName, long fileSize = long.MinValue, long crc = long.MinValue);
+        List<ZipFileEntry> SearchForRom(string romName, long fileSize = long.MinValue, int crc = int.MinValue);
 
         /// <summary>
         /// 

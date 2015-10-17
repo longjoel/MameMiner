@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace MameMiner.Service
             ContainerPath char(80),
             RomName char(80),
             FileSize long,
-            CRC32 long)";
+            CRC32 int)";
 
         /// <summary>
         /// An SQL Command to insert a new record into the database.
@@ -52,7 +53,7 @@ namespace MameMiner.Service
             CRC32         
             FROM RomFileDetails WHERE RomName = @RomName and FileSize = @FileSize and CRC32 = @CRC32";
 
-
+       
         /// <summary>
         /// 
         /// </summary>
@@ -64,6 +65,11 @@ namespace MameMiner.Service
         private string _dbPath;
 
         private IMameMinerSettingsService _settingsService;
+
+        //private ConcurrentQueue<SQLiteCommand> _cmdInsertQueue;
+
+       
+        
         /// <summary>
         /// 
         /// </summary>
@@ -77,17 +83,43 @@ namespace MameMiner.Service
             if (!Directory.Exists(Path.GetDirectoryName(_dbPath)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(_dbPath));
-               
+
 
             }
 
-            if(!File.Exists(_dbPath))
+            if (!File.Exists(_dbPath))
             {
                 CreateDatabase();
             }
 
 
             _settingsService = settingsService;
+            //_cmdInsertQueue = new ConcurrentQueue<SQLiteCommand>();
+
+            //Task.Factory.StartNew(() =>
+            //{
+
+            //    while (true)
+            //    {
+            //        SQLiteCommand cmd = null;
+
+            //        if (_cmdInsertQueue.TryDequeue(out cmd))
+            //        {
+            //            using (var connection = new SQLiteConnection(_connectionString))
+            //            {
+            //                connection.Open();
+
+            //                cmd.Connection = connection;
+            //                cmd.ExecuteNonQuery();
+
+            //                connection.Close();
+            //            }
+            //        }
+            //    }
+
+
+            //});
+
         }
 
         /// <summary>
@@ -159,7 +191,7 @@ namespace MameMiner.Service
         /// <param name="zipFileName"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public long GetFileCRC(string zipFileName, string fileName)
+        public int GetFileCRC(string zipFileName, string fileName)
         {
             var zf = ZipFile.Read(zipFileName);
             var ze = zf.Where(x => x.FileName.ToLower().Contains(fileName.ToLower())).FirstOrDefault();
@@ -167,7 +199,7 @@ namespace MameMiner.Service
             return ze.Crc;
         }
 
-      
+
 
         /// <summary>
         /// 
@@ -188,7 +220,7 @@ namespace MameMiner.Service
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public DataTable QueryDatabase(string romName, long crc32, long filesize)
+        public DataTable QueryDatabase(string romName, int crc32, long filesize)
         {
             var dt = new DataTable();
 
@@ -252,25 +284,29 @@ namespace MameMiner.Service
             return ZipFile.Read(zipFileName).Select(x => x.FileName).ToList();
         }
 
-        void IZipFileService.WriteToDatabase(string zipFileName, string romName, long fileSize, long crc32)
+        void IZipFileService.WriteToDatabase(string zipFileName, string romName, long fileSize, int crc32)
         {
+
+            //        if (_cmdInsertQueue.TryDequeue(out cmd))
+            //        {
+            //        
+            //        }
+
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
+                var cmd = new SQLiteCommand(CMDInsertRecord, connection);
 
-                using (var cmd = new SQLiteCommand(CMDInsertRecord, connection))
-                {
-                    cmd.Parameters.AddWithValue("@ContainerPath", zipFileName);
-                    cmd.Parameters.AddWithValue("@RomName", romName);
-                    cmd.Parameters.AddWithValue("@FileSize", fileSize);
-                    cmd.Parameters.AddWithValue("@CRC32", crc32);
-               
-
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.Parameters.AddWithValue("@ContainerPath", zipFileName);
+                cmd.Parameters.AddWithValue("@RomName", romName);
+                cmd.Parameters.AddWithValue("@FileSize", fileSize);
+                cmd.Parameters.AddWithValue("@CRC32", crc32);
+                cmd.ExecuteNonQuery();
 
                 connection.Close();
             }
+            
+
         }
 
     }

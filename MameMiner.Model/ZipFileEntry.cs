@@ -29,7 +29,7 @@ namespace MameMiner.Model
         /// <summary>
         /// 
         /// </summary>
-        public long CRC { get; private set; }
+        public int CRC { get; private set; }
 
      
 
@@ -40,7 +40,7 @@ namespace MameMiner.Model
         /// <param name="fileSize"></param>
         /// <param name="crc"></param>
         /// <param name="sha1"></param>
-        public ZipFileEntry(string zipFileFileName, string fileName, long fileSize, long crc)
+        public ZipFileEntry(string zipFileFileName, string fileName, long fileSize, int crc)
         {
             ZipFileContainer = zipFileFileName;
             FileName = fileName;
@@ -49,7 +49,7 @@ namespace MameMiner.Model
        
         }
 
-        public ZipFileEntry() : this("", "", int.MinValue, int.MinValue) { }
+        public ZipFileEntry() : this("", "", long.MinValue, int.MinValue) { }
 
     }
 }

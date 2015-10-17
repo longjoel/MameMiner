@@ -29,13 +29,30 @@ namespace MameMiner.WPF
         IMameGameRepository _gameRepository;
         IMameMinerSettingsService _settingsService;
 
+        public void SafeInvoke(Action a)
+        {
+            try { Dispatcher.Invoke(() => a()); }
+            catch { }
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="status"></param>
         public void SetStatus(string status)
         {
-            Dispatcher.Invoke(() => this.ApplicationStatusText.Text = status);
+            SafeInvoke(() => this.ApplicationStatusText.Text = status);
+        }
+
+        public void SetProgress(double percent)
+        {
+            SafeInvoke(() =>
+            {
+                this.ActivityProgress.Maximum = 100.0;
+                this.ActivityProgress.Minimum = 0.0;
+                this.ActivityProgress.Value = percent;
+
+            });
         }
 
         /// <summary>
@@ -85,6 +102,7 @@ namespace MameMiner.WPF
         /// <param name="e"></param>
         private void GenerateZipFileDBMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            GenerateZipFileDBMenuItem.IsEnabled = false;
             BuildFileDatabase();
         }
 
@@ -114,7 +132,7 @@ namespace MameMiner.WPF
 
                 }
 
-                this.Dispatcher.Invoke(() => SearchTextBox.IsEnabled = true);
+                SafeInvoke(() => SearchTextBox.IsEnabled = true);
                 SetStatus(string.Format("Search Complete!"));
             });
         }
@@ -124,51 +142,57 @@ namespace MameMiner.WPF
         /// </summary>
         void BuildFileDatabase()
         {
+            int i = 0;
+            var files = _zipFileService.ReadAllFileNames();
+
+            int max = files.Count();
+
             Task.Factory.StartNew(() =>
             {
                 SetStatus("Buidling Database...");
 
-                var files = _zipFileService.ReadAllFileNames();
-                int i = 0;
-                int maxFiles = files.Count;
 
-                foreach (var f in files)
+
+                files.ForEach(f =>
                 {
-                    double percent = ((double)(i + 1) / (double)maxFiles);
+                    ProcessZipFile(f);
+                    double percent = ((double)(i + 1) / (double)(max)) * 100.0; i++;
+                    SetProgress(percent);
 
-                    SetStatus(string.Format("{0:P2} Parsing: {1}.", percent, f));
 
-                    if (f.ToLower().Contains(".zip"))
-                    {
-                        foreach (var fx in _zipFileRepository.GetZipFileContents(f))
-                        {
-                            // Avoid duplicates
-                            if (!_zipFileRepository.SearchForRom(fx.FileName, fx.FileSize, fx.CRC).Any())
-                            {
-                                fx.ZipFileContainer = f;
-                                _zipFileRepository.InsertRom(fx);
-                                SetStatus(string.Format("{1} added to database.", fx.FileName));
-                            }
-                            else
-                            {
-                                SetStatus(string.Format("{0} already in db.", fx.FileName));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SetStatus(string.Format("Skipping non-zip file {0}.", f));
+                });
 
-                    }
-
-                    i++;
-                }
-
-                SetStatus("Build Complete");
+                SetProgress(0);
 
             });
 
 
+
+        }
+
+        private void ProcessZipFile(string f)
+        {
+            if (f.ToLower().Contains(".zip"))
+            {
+                foreach (var fx in _zipFileRepository.GetZipFileContents(f))
+                {
+                    // Avoid duplicates
+                    if (!_zipFileRepository.SearchForRom(fx.FileName, fx.FileSize, fx.CRC).Any())
+                    {
+                        fx.ZipFileContainer = f;
+                        _zipFileRepository.InsertRom(fx);
+                        SetStatus(string.Format("{0} added to database.", fx.FileName));
+                    }
+                    else
+                    {
+                        SetStatus(string.Format("{0} already in db.", fx.FileName));
+                    }
+                }
+            }
+            else
+            {
+                SetStatus(string.Format("Skipping non-zip file {0}.", f));
+            }
         }
 
 
@@ -195,7 +219,10 @@ namespace MameMiner.WPF
         {
             this.RomDetailsContainerGrid.Children.Clear();
 
-            this.RomDetailsContainerGrid.Children.Add(new RomDetailsView((MameGame)SearchResultsListBox.SelectedItem));
+            if (SearchResultsListBox.SelectedIndex != -1)
+            {
+                this.RomDetailsContainerGrid.Children.Add(new RomDetailsView((MameGame)SearchResultsListBox.SelectedItem));
+            }
         }
     }
 }
