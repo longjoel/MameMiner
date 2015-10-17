@@ -46,6 +46,7 @@ namespace MameMiner.Model
         /// </summary>
         public bool BadDump { get { return BadCRC || BadSHA1; } }
 
+     
         /// <summary>
         /// 
         /// </summary>

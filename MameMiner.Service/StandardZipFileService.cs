@@ -135,10 +135,20 @@ namespace MameMiner.Service
                 CreateZipFile(zipFileName);
             }
 
+            try
+            {
+                var zf = ZipFile.Read(zipFileName);
+                if (!zf.ContainsEntry(fileName))
+                {
+                    zf.AddEntry(fileName, fileContents);
+                    zf.Save();
+                }
+            }
+            catch(Exception ex)
+            {
 
-            var zf = ZipFile.Read(zipFileName);
-            zf.AddEntry(fileName, fileContents);
-            zf.Save();
+            }
+            
         }
 
         /// <summary>
