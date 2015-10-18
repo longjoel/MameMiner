@@ -144,7 +144,7 @@ namespace MameMiner.Service
                     zf.Save();
                 }
             }
-            catch(Exception ex)
+            catch
             {
 
             }
