@@ -2,6 +2,15 @@
 
 A tool for finding particular games burried in a massive archive of mame roms.
 
+## Screenshot
+
+![](http://i.imgur.com/TnvMwYQ.png?raw=true)
+
+## Download
+
+* https://mega.nz/#!l1RGkA5B
+* This link will be revised as new versions are made available.
+
 ## Mame Miner Use Cases
 
 * You have an absolutely massive ammount of games, but only really want to find a hand full.
