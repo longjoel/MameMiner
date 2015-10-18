@@ -8,7 +8,7 @@ A tool for finding particular games burried in a massive archive of mame roms.
 
 ## Download
 
-* https://mega.nz/#!l1RGkA5B
+* https://mega.nz/#!l1RGkA5B!sF3HY9KbbONuVXlYDSVHs8jYi9UCDbvWIt8SFAvJi_Y
 * This link will be revised as new versions are made available.
 
 ## Mame Miner Use Cases
