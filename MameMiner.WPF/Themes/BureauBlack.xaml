@@ -74,7 +74,7 @@
 
     <!-- CheckBox Brushes -->
 
-    <SolidColorBrush x:Key="CheckBoxBackgroundBrush" Color="#FFF4F4F4"/>
+    <!--<SolidColorBrush x:Key="CheckBoxBackgroundBrush" Color="#FFF4F4F4"/>
     <SolidColorBrush x:Key="CheckBoxBorderBrush" Color="#FF868686"/>
     <SolidColorBrush x:Key="CheckBoxInnerBoxBackgroundBrush" Color="#FFCACFD5"/>
     <LinearGradientBrush x:Key="CheckBoxInnerBoxBorderBrush" EndPoint="-0.007,-0.012" StartPoint="0.915,0.92">
@@ -91,7 +91,7 @@
         <GradientStop Color="#00F6F6F6" Offset="0.254" />
         <GradientStop Color="#53F8F8F8" Offset="0.54" />
         <GradientStop Color="#BFFFFFFF" Offset="0.996" />
-    </LinearGradientBrush>
+    </LinearGradientBrush>-->
 
     <!-- RadioButton Brushes -->
 
@@ -424,7 +424,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CheckBoxFocusVisual">
+    <!--<Style x:Key="CheckBoxFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -601,7 +601,7 @@
                         </Trigger>
                     </ControlTemplate.Triggers>
 
-                </ControlTemplate>
+                </ControlTemplate>-->
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -3077,7 +3077,7 @@
         <Setter Property="Template" Value="{DynamicResource ButtonTemplate}" />
     </Style>
 
-    <Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}">
+    <!--<Style x:Key="{x:Static ToolBar.CheckBoxStyleKey}" TargetType="{x:Type CheckBox}">
 			<Setter Property="FontSize" Value="10"/>
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
@@ -3088,7 +3088,7 @@
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="Padding" Value="4,1,0,0" />
         <Setter Property="Template" Value="{DynamicResource CheckBoxTemplate}" />
-    </Style>
+    </Style>-->
 
     <Style x:Key="{x:Static ToolBar.RadioButtonStyleKey}" TargetType="{x:Type RadioButton}">
 			<Setter Property="FontSize" Value="10"/>

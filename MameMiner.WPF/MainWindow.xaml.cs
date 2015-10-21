@@ -69,10 +69,7 @@ namespace MameMiner.WPF
 
             SetStatus("Main Window Created");
 
-            if (_settingsService.GetMameExecutablePath() == string.Empty || _settingsService.GetMameExportPath() == string.Empty || _settingsService.GetMameImportPath() == string.Empty)
-            {
-                new SettingsWindow(_settingsService).ShowDialog();
-            }
+
         }
 
         /// <summary>
@@ -120,13 +117,37 @@ namespace MameMiner.WPF
 
             SearchTextBox.IsEnabled = false;
 
+            bool expandedSearch = AdvanceSearchExpander.IsExpanded;
+
+            var nList = new List<int>();
+            if (expandedSearch)
+            {
+                if (P1CheckBox.IsChecked.Value) nList.Add(1);
+                if (P2CheckBox.IsChecked.Value) nList.Add(2);
+                if (P3CheckBox.IsChecked.Value) nList.Add(3);
+                if (P4CheckBox.IsChecked.Value) nList.Add(4);
+            }
+
             Task.Factory.StartNew(() =>
             {
 
-                var games = _gameRepository.SearchForGame(searchQuery, 100);
+                IEnumerable<MameGame> games = null;
+                if (expandedSearch)
+                {
+                   
+
+                    games = _gameRepository.SearchForGame(searchQuery, nList, 100);
+
+                }
+                else
+                {
+                    games = _gameRepository.SearchForGame(searchQuery, 100);
+
+                }
 
                 foreach (var g in games)
                 {
+
                     this.Dispatcher.Invoke(() => this.SearchResultsListBox.Items.Add(g));
                     SetStatus(string.Format("Found: " + g.GameDescription));
 
@@ -222,6 +243,19 @@ namespace MameMiner.WPF
             if (SearchResultsListBox.SelectedIndex != -1)
             {
                 this.RomDetailsContainerGrid.Children.Add(new RomDetailsView((MameGame)SearchResultsListBox.SelectedItem));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_settingsService.GetMameExecutablePath() == string.Empty || _settingsService.GetMameExportPath() == string.Empty || _settingsService.GetMameImportPath() == string.Empty)
+            {
+                new SettingsWindow(_settingsService).ShowDialog();
             }
         }
     }

@@ -46,7 +46,11 @@ namespace MameMiner.Model
         /// </summary>
         public bool BadDump { get { return BadCRC || BadSHA1; } }
 
-     
+        /// <summary>
+        /// 
+        /// </summary>
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -56,6 +60,7 @@ namespace MameMiner.Model
         /// <param name="fileSize"></param>
         /// <param name="badCRC"></param>
         /// <param name="badSHA1"></param>
+        /// <param name="numberOfPlayers"></param>
         public MameGameRomDetails(string romName, string sha1, int romCRC, long fileSize, bool badCRC, bool badSHA1)
         {
             RomName = romName;

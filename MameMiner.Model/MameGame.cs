@@ -25,6 +25,12 @@ namespace MameMiner.Model
         /// <summary>
         /// 
         /// </summary>
+        public int NumberOfPlayers { get; private set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         private List<MameGameRomDetails> _gameRomDetails;
 
         /// <summary>
@@ -33,10 +39,11 @@ namespace MameMiner.Model
         /// <param name="gameName"></param>
         /// <param name="gameDescription"></param>
         /// <param name="mameGameDetails"></param>
-        public MameGame(string gameName, string gameDescription, string mameGameDetails)
+        public MameGame(string gameName, string gameDescription, string mameGameDetails, int numberOfPlayers)
         {
             GameName = gameName;
             GameDescription = gameDescription;
+            NumberOfPlayers = numberOfPlayers;
 
             _gameRomDetails = new List<MameGameRomDetails>();
 

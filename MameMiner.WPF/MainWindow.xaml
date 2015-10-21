@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MameMiner.WPF"
         mc:Ignorable="d"
-        Title="Mame Miner" Height="397.886" Width="877.612">
+        Title="Mame Miner" Height="397.886" Width="877.612" Loaded="Window_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -32,10 +33,10 @@
 
         <TextBox Grid.Row="1" FontSize="24px" VerticalAlignment="Center" Margin="5" Name="SearchTextBox" KeyDown="SearchTextBox_KeyDown" />
 
-        <StatusBar Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <StatusBar Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <StatusBarItem  >
                 <ProgressBar Width="300" Margin="5" BorderThickness="1" Background="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="25" Name="ActivityProgress" ></ProgressBar>
-              
+
             </StatusBarItem>
 
             <StatusBarItem  Margin="5">
@@ -46,7 +47,7 @@
         </StatusBar>
 
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200*"/>
                 <ColumnDefinition Width="5" />
@@ -55,7 +56,7 @@
 
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Row="0" Name="SearchResultsListBox" SelectionChanged="SearchResultsListBox_SelectionChanged"  ></ListBox>
+            <ListBox Grid.Row="0" Name="SearchResultsListBox" SelectionChanged="SearchResultsListBox_SelectionChanged" Grid.ColumnSpan="2" Margin="5"  ></ListBox>
 
 
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
@@ -65,5 +66,15 @@
             </Grid>
 
         </Grid>
+        <Expander Margin="5" x:Name="AdvanceSearchExpander" Header="Advanced Search Options"  Grid.Row="2" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="21.333">
+            <Grid Background="DarkGray">
+                <WrapPanel>
+                    <CheckBox Name="P1CheckBox" VerticalAlignment="Center" FontSize="12" Margin="5">1 player</CheckBox>
+                    <CheckBox Name="P2CheckBox" VerticalAlignment="Center" FontSize="12" Margin="5" >2 player</CheckBox>
+                    <CheckBox Name="P3CheckBox" VerticalAlignment="Center" FontSize="12" Margin="5">3 player</CheckBox>
+                    <CheckBox Name="P4CheckBox" Margin="5" VerticalAlignment="Center" FontSize="12">4 player</CheckBox>
+                </WrapPanel>
+            </Grid>
+        </Expander>
     </Grid>
 </Window>

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
+using System.Xml;
+
 namespace MameMiner.Service
 {
 
@@ -85,6 +87,17 @@ namespace MameMiner.Service
         public string ListRoms(string gameName)
         {
             return Query("-listroms", gameName);
+        }
+
+        public int GetNumberPlayers(string gameName)
+        {
+            var xmlResults = Query("-listxml", gameName);
+            var xDoc = new XmlDocument();
+            xDoc.Load(new StringReader(xmlResults));
+
+            var node = xDoc.SelectSingleNode("mame/machine/input/@players");
+
+            return int.Parse(node.Value);
         }
     }
 }

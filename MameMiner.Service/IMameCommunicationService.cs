@@ -31,5 +31,12 @@ namespace MameMiner.Service
         /// <param name="gameName"></param>
         /// <returns></returns>
         string ListMedia(string gameName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameName"></param>
+        /// <returns></returns>
+        int GetNumberPlayers(string gameName);
     }
 }

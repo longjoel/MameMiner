@@ -48,6 +48,8 @@ namespace MameMiner.WPF
 
                 var sb = new StringBuilder();
                 sb.AppendLine(string.Format("Report for : {0}.", game.GameDescription));
+                sb.AppendLine(string.Format("Number of Players : {0}.", game.NumberOfPlayers));
+
                 sb.AppendLine("==== Report on Game ====");
                 sb.AppendLine(string.Format("Bad Dump? : {0}", game.Any(g => g.BadDump)));
                 sb.AppendLine(string.Format("Bad CRC? : {0}", game.Any(g => g.BadCRC)));

@@ -25,7 +25,7 @@ namespace MameMiner.Repository
         {
             _communicationService = mameCommunicationService;
 
-          
+
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace MameMiner.Repository
         /// <returns></returns>
         public IEnumerable<MameGame> SearchForGame(string searchTerm, int maxResults)
         {
-            if(_gameList == null)
+            if (_gameList == null)
             {
                 var gList = _communicationService.ListFull().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 gList.RemoveAt(0);
@@ -44,20 +44,47 @@ namespace MameMiner.Repository
                 _gameList = gList.ToArray();
             }
 
-            //var lGames = new List<MameGame>();
-
-            foreach(var l in _gameList.Where(g => g.ToLower().Contains(searchTerm.ToLower())).Take(maxResults))
+            foreach (var l in _gameList.Where(g => g.ToLower().Contains(searchTerm.ToLower())).Take(maxResults))
             {
-                var entries = l.Split(new string[] { "  ","   " }, StringSplitOptions.RemoveEmptyEntries);
+                var entries = l.Split(new string[] { "  ", "   " }, StringSplitOptions.RemoveEmptyEntries);
                 var gameName = entries[0].Trim();
-                var gameDescription = entries[1].Trim().Replace("\"","");
+                var gameDescription = entries[1].Trim().Replace("\"", "");
 
-                //lGames.Add(new MameGame(gameName, gameDescription, _communicationService.ListRoms(gameName)));
-
-                yield return new MameGame(gameName, gameDescription, _communicationService.ListRoms(gameName));
+                yield return new MameGame(gameName,
+                    gameDescription,
+                    _communicationService.ListRoms(gameName),
+                    _communicationService.GetNumberPlayers(gameName));
             }
 
-           // return lGames;
+
+        }
+
+        public IEnumerable<MameGame> SearchForGame(string searchTerm, List<int> numPlayers, int maxResults)
+        {
+            if (_gameList == null)
+            {
+                var gList = _communicationService.ListFull().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                gList.RemoveAt(0);
+
+                _gameList = gList.ToArray();
+            }
+
+            foreach (var l in _gameList.Where(g => g.ToLower().Contains(searchTerm.ToLower())).Take(maxResults))
+            {
+                var entries = l.Split(new string[] { "  ", "   " }, StringSplitOptions.RemoveEmptyEntries);
+                var gameName = entries[0].Trim();
+                var gameDescription = entries[1].Trim().Replace("\"", "");
+
+                var mameGame = new MameGame(gameName,
+                    gameDescription,
+                    _communicationService.ListRoms(gameName),
+                    _communicationService.GetNumberPlayers(gameName));
+
+                if (numPlayers.Contains(mameGame.NumberOfPlayers))
+                    yield return mameGame;
+            }
+
+
         }
     }
 }
