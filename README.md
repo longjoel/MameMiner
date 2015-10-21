@@ -4,12 +4,16 @@ A tool for finding particular games burried in a massive archive of mame roms.
 
 ## Screenshot
 
-![](http://i.imgur.com/TnvMwYQ.png?raw=true)
+![](http://i.imgur.com/Vfcu3Y5.png?raw=true)
 
 ## Download
 
-* https://mega.nz/#!l1RGkA5B!sF3HY9KbbONuVXlYDSVHs8jYi9UCDbvWIt8SFAvJi_Y
+* https://www.dropbox.com/s/wky106qcwen37g4/Mame%20Miner.zip?dl=0
 * This link will be revised as new versions are made available.
+
+## Recent Changes
+
+* 10/20/2015 - Added advanced search options.
 
 ## Mame Miner Use Cases
 
