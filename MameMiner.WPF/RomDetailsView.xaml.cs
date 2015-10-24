@@ -51,6 +51,7 @@ namespace MameMiner.WPF
                 sb.AppendLine(string.Format("Number of Players : {0}.", game.NumberOfPlayers));
 
                 sb.AppendLine("==== Report on Game ====");
+                sb.AppendLine(string.Format("Game Driver Status : {0}", game.GameState.ToString()));
                 sb.AppendLine(string.Format("Bad Dump? : {0}", game.Any(g => g.BadDump)));
                 sb.AppendLine(string.Format("Bad CRC? : {0}", game.Any(g => g.BadCRC)));
                 sb.AppendLine(string.Format("Bad SHA1?: {0}", game.Any(g => g.BadSHA1)));
@@ -60,7 +61,13 @@ namespace MameMiner.WPF
                     sb.AppendLine("At least one rom in the collection is recognized as beeing a bad dump. You may not be able to run this game.");
                 }
 
-                if(hasDuplicates)
+                if(game.GameState == GameWorkingStateEnum.Preliminary)
+                {
+                    sb.AppendLine("This game is ony preliminarily developed in Mame. Do not expect it to run.");
+
+                }
+
+                if (hasDuplicates)
                 {
                     sb.AppendLine("At least one rom is a duplicate entry from listrom results. You may not be able to run this game.");
                 }

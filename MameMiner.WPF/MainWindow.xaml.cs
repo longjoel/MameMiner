@@ -119,15 +119,22 @@ namespace MameMiner.WPF
 
             bool expandedSearch = AdvanceSearchExpander.IsExpanded;
 
-            var nList = new List<int>();
+            var nPlayerList = new List<int>();
             if (expandedSearch)
             {
-                if (P1CheckBox.IsChecked.Value) nList.Add(1);
-                if (P2CheckBox.IsChecked.Value) nList.Add(2);
-                if (P3CheckBox.IsChecked.Value) nList.Add(3);
-                if (P4CheckBox.IsChecked.Value) nList.Add(4);
+                if (P1CheckBox.IsChecked.Value) nPlayerList.Add(1);
+                if (P2CheckBox.IsChecked.Value) nPlayerList.Add(2);
+                if (P3CheckBox.IsChecked.Value) nPlayerList.Add(3);
+                if (P4CheckBox.IsChecked.Value) nPlayerList.Add(4);
             }
 
+            var nGameStatesList = new List<GameWorkingStateEnum>();
+            if(expandedSearch)
+            {
+                if (GameGoodCheckBox.IsChecked.Value) nGameStatesList.Add(GameWorkingStateEnum.Good);
+                if (GameImperfectCheckBox.IsChecked.Value) nGameStatesList.Add(GameWorkingStateEnum.Imperfect);
+                if (GamePreliminaryCheckBox.IsChecked.Value) nGameStatesList.Add(GameWorkingStateEnum.Preliminary);
+            }
             Task.Factory.StartNew(() =>
             {
 
@@ -136,7 +143,7 @@ namespace MameMiner.WPF
                 {
                    
 
-                    games = _gameRepository.SearchForGame(searchQuery, nList, 100);
+                    games = _gameRepository.SearchForGame(searchQuery, nPlayerList, nGameStatesList, 100);
 
                 }
                 else

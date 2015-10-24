@@ -28,10 +28,13 @@ namespace MameMiner.Model
         public int NumberOfPlayers { get; private set; }
 
 
+        public GameWorkingStateEnum GameState { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         private List<MameGameRomDetails> _gameRomDetails;
+
 
         /// <summary>
         /// 
@@ -39,11 +42,12 @@ namespace MameMiner.Model
         /// <param name="gameName"></param>
         /// <param name="gameDescription"></param>
         /// <param name="mameGameDetails"></param>
-        public MameGame(string gameName, string gameDescription, string mameGameDetails, int numberOfPlayers)
+        public MameGame(string gameName, string gameDescription, string mameGameDetails, int numberOfPlayers, GameWorkingStateEnum gameState)
         {
             GameName = gameName;
             GameDescription = gameDescription;
             NumberOfPlayers = numberOfPlayers;
+            GameState = gameState;
 
             _gameRomDetails = new List<MameGameRomDetails>();
 

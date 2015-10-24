@@ -38,5 +38,13 @@ namespace MameMiner.Service
         /// <param name="gameName"></param>
         /// <returns></returns>
         int GetNumberPlayers(string gameName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameName"></param>
+        /// <returns></returns>
+        string GetOverallState(string gameName);
+
     }
 }

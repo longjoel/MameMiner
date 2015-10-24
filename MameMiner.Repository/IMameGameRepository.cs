@@ -14,7 +14,8 @@ namespace MameMiner.Repository
     public interface IMameGameRepository
     {
         IEnumerable<MameGame> SearchForGame(string searchTerm, int maxResults);
-        IEnumerable<MameGame> SearchForGame(string searchTerm, List<int> numPlayers, int maxResults);
+        IEnumerable<MameGame> SearchForGame(string searchTerm, List<int> numPlayers, List<GameWorkingStateEnum> playableStates, int maxResults);
+
 
     }
 }

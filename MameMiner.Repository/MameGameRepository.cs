@@ -50,16 +50,25 @@ namespace MameMiner.Repository
                 var gameName = entries[0].Trim();
                 var gameDescription = entries[1].Trim().Replace("\"", "");
 
+                var stateString = _communicationService.GetOverallState(gameName);
+                GameWorkingStateEnum gameState = GameWorkingStateEnum.Good;
+
+
+                if (stateString == "good") gameState = GameWorkingStateEnum.Good;
+                if (stateString == "imperfect") gameState = GameWorkingStateEnum.Imperfect;
+                if (stateString == "preliminary") gameState = GameWorkingStateEnum.Preliminary;
+
                 yield return new MameGame(gameName,
                     gameDescription,
                     _communicationService.ListRoms(gameName),
-                    _communicationService.GetNumberPlayers(gameName));
+                    _communicationService.GetNumberPlayers(gameName),
+                    gameState);
             }
 
 
         }
 
-        public IEnumerable<MameGame> SearchForGame(string searchTerm, List<int> numPlayers, int maxResults)
+        public IEnumerable<MameGame> SearchForGame(string searchTerm, List<int> numPlayers, List<GameWorkingStateEnum> gameStates, int maxResults)
         {
             if (_gameList == null)
             {
@@ -75,13 +84,28 @@ namespace MameMiner.Repository
                 var gameName = entries[0].Trim();
                 var gameDescription = entries[1].Trim().Replace("\"", "");
 
+                var stateString = _communicationService.GetOverallState(gameName);
+                GameWorkingStateEnum gameState = GameWorkingStateEnum.Good;
+
+
+                if (stateString == "good") gameState = GameWorkingStateEnum.Good;
+                if (stateString == "imperfect") gameState = GameWorkingStateEnum.Imperfect;
+                if (stateString == "preliminary") gameState = GameWorkingStateEnum.Preliminary;
+
                 var mameGame = new MameGame(gameName,
                     gameDescription,
                     _communicationService.ListRoms(gameName),
-                    _communicationService.GetNumberPlayers(gameName));
+                    _communicationService.GetNumberPlayers(gameName),
+                    gameState);
 
-                if (numPlayers.Contains(mameGame.NumberOfPlayers))
-                    yield return mameGame;
+                if (numPlayers != null && numPlayers.Any() && !numPlayers.Contains(mameGame.NumberOfPlayers))
+                    continue;
+
+                if (gameStates != null && gameStates.Any() && !gameStates.Contains(mameGame.GameState))
+                    continue;
+
+                yield return mameGame;
+
             }
 
 

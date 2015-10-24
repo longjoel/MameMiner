@@ -73,6 +73,10 @@
                     <CheckBox Name="P2CheckBox" VerticalAlignment="Center" FontSize="12" Margin="5" >2 player</CheckBox>
                     <CheckBox Name="P3CheckBox" VerticalAlignment="Center" FontSize="12" Margin="5">3 player</CheckBox>
                     <CheckBox Name="P4CheckBox" Margin="5" VerticalAlignment="Center" FontSize="12">4 player</CheckBox>
+
+                    <CheckBox Name="GameGoodCheckBox" Margin="5" VerticalAlignment="Center" FontSize="12">Good</CheckBox>
+                    <CheckBox Name="GameImperfectCheckBox" Margin="5" VerticalAlignment="Center" FontSize="12">Imperfect</CheckBox>
+                    <CheckBox Name="GamePreliminaryCheckBox" Margin="5" VerticalAlignment="Center" FontSize="12">Preliminary</CheckBox>
                 </WrapPanel>
             </Grid>
         </Expander>

@@ -99,5 +99,16 @@ namespace MameMiner.Service
 
             return int.Parse(node.Value);
         }
+
+        public string GetOverallState(string gameName)
+        {
+            var xmlResults = Query("-listxml", gameName);
+            var xDoc = new XmlDocument();
+            xDoc.Load(new StringReader(xmlResults));
+
+            var node = xDoc.SelectSingleNode("mame/machine/driver/@status");
+
+            return node.Value.ToString().ToLower();
+        }
     }
 }

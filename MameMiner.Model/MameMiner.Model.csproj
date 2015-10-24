@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameWorkingStateEnum.cs" />
     <Compile Include="ZipFileEntry.cs" />
     <Compile Include="MameGame.cs" />
     <Compile Include="MameGameRomDetails.cs" />
