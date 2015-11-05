@@ -14,6 +14,7 @@ A tool for finding particular games burried in a massive archive of mame roms.
 
 ## Recent Changes
 
+* 11/4/2015 - Updated documentation.
 * 10/24/2015 - Added option to filter by good, working, and non-working games.
 * 10/20/2015 - Added advanced search options.
 
