@@ -8,7 +8,7 @@ A tool for finding particular games burried in a massive archive of mame roms.
 
 ## Download
 
-* [Download](https://www.dropbox.com/s/alr11y8vwcfqbk4/MameMiner.zip?dl=0)
+* [Download](https://github.com/longjoel/MameMiner/releases/download/1.0/MameMiner.zip)
 * [Documentation](https://github.com/longjoel/MameMiner/raw/master/Documentation/MameMinerDoc.pdf)
 * These links will be revised as new versions are made available.
 
